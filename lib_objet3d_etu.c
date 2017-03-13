@@ -26,6 +26,7 @@ t_objet3d * camera_etu(double l, double h, double n, double f, double d)
 	ret->proche = n;
 	ret->loin = f;
 	ret->distance_ecran = d;
+	ret->tete = NULL; // Not necessary
 
 	return ret;
 }
@@ -35,9 +36,10 @@ t_objet3d * parallelepipede_etu(double lx, double ly, double lz)
 	t_point3d *avbg, *avbd, *avhg, *avhd, *arbg, *arbd, *arhg, *arhd;
 	t_triangle3d *av1, *av2, *g1, *g2, *d1, *d2, *ar1, *ar2, *h1, *h2, *b1, *b2;
 
-	t_objet3d *parallelepipede;
+	t_objet3d *parallelepipede = objet_vide();
 	t_maillon *maillon;
 
+	// Définition des points
 	avbg = definirPoint3d(-lx/2, -ly/2, -lz/2);
 	avbd = definirPoint3d(lx/2 , -ly/2, -lz/2);
 	avhg = definirPoint3d(-lx/2, ly/2 , -lz/2);
@@ -47,6 +49,7 @@ t_objet3d * parallelepipede_etu(double lx, double ly, double lz)
 	arhg = definirPoint3d(-lx/2, ly/2 , lz/2 );
 	arhd = definirPoint3d(lx/2 , ly/2 , lz/2 );
 	
+	// Définition des triangles
 	av1 = definirTriangle3d(avbg, avbd, avhd);
 	av2 = definirTriangle3d(avbg, avhg, avhd);
 	ar1 = definirTriangle3d(arbg, arbd, arhd);
@@ -60,8 +63,8 @@ t_objet3d * parallelepipede_etu(double lx, double ly, double lz)
 	b1  = definirTriangle3d(avbg, avbd, arbd);
 	b2  = definirTriangle3d(avbg, arbg, arbd);
 
-	parallelepipede = objet_vide();
-
+	// Ajout des triangles à l'objet sous forme de maillons.
+	// Les couleurs sont arbitraires
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = av1;
 	maillon->couleur = VERTC;
@@ -143,17 +146,19 @@ t_objet3d * sphere_etu(double r, double nlat, double nlong)
 	t_point3d *pts[(int)nlat][(int)nlong];
 	t_triangle3d *triangles[(int)nlat-1][(int)nlong*2];
 
-	t_objet3d *sphere;
+	t_objet3d *sphere = objet_vide();
 	t_maillon *maillon;
 
+	// Définition des points
 	for(i = 0; i < nlat; i++)
 	{
 		for(j = 0; j < nlong; j++)
 		{
-			pts[i][j] = definirPoint3d(r*sin(pi*i/(nlat))*cos(2*pi*j/nlong ), r*sin(pi*i/(nlat))*sin(2*pi*j/nlong), r*cos(pi*i/(nlat)));	// FIXME PLEASE
+			pts[i][j] = definirPoint3d(r*sin(pi*i/(nlat))*cos(2*pi*j/nlong ), r*sin(pi*i/(nlat))*sin(2*pi*j/nlong), r*cos(pi*i/(nlat)));
 		}
 	}
 
+	// Définition des triangles
 	for(i = 0; i < nlat-1; i++)
 	{
 		for(j = 0; j < nlong-1; j++)
@@ -165,11 +170,8 @@ t_objet3d * sphere_etu(double r, double nlat, double nlong)
 		triangles[i][2*(int)nlong-1] = definirTriangle3d(pts[i+1][(int)nlong-1], pts[i][(int)nlong-1], pts[i][0]);
 	}
 
-	sphere = (t_objet3d *) malloc(sizeof(t_objet3d));
-	sphere->est_trie = false;
-	sphere->est_camera = false;
-	sphere->tete = NULL;
-
+	// Ajout des triangles  à l'objet sous forme de maillons
+	// Les couleurs sont arbitraires
 	for(i = 0; i < nlat-1; i++)
 	{
 		for(j = 0; j < nlong*2; j++)
@@ -199,9 +201,10 @@ t_objet3d * sphere_amiga_etu(double r, double nlat, double nlong)
 	t_point3d *pts[(int)nlat][(int)nlong];
 	t_triangle3d *triangles[(int)nlat-1][(int)nlong*2];
 
-	t_objet3d *sphere;
+	t_objet3d *sphere = objet_vide();
 	t_maillon *maillon;
 
+	// Définition des points
 	for(i = 0; i < nlat; i++)
 	{
 		for(j = 0; j < nlong; j++)
@@ -210,6 +213,7 @@ t_objet3d * sphere_amiga_etu(double r, double nlat, double nlong)
 		}
 	}
 
+	// Définition des triangles
 	for(i = 0; i < nlat-1; i++)
 	{
 		for(j = 0; j < nlong-1; j++)
@@ -221,11 +225,7 @@ t_objet3d * sphere_amiga_etu(double r, double nlat, double nlong)
 		triangles[i][2*(int)nlong-1] = definirTriangle3d(pts[i+1][(int)nlong-1], pts[i][(int)nlong-1], pts[i][0]);
 	}
 
-	sphere = (t_objet3d *) malloc(sizeof(t_objet3d));
-	sphere->est_trie = false;
-	sphere->est_camera = false;
-	sphere->tete = NULL;
-
+	// Ajout des triangles à l'objet sous forme de maillons
 	for(i = 0; i < nlat-1; i++)
 	{
 		for(j = 0; j < nlong*2; j++)
@@ -248,13 +248,14 @@ t_objet3d * sphere_amiga_etu(double r, double nlat, double nlong)
 t_objet3d* arbre_etu(double lx, double ly, double lz)
 {
 	int i;
-	t_objet3d *arbre;
+	t_objet3d *arbre = objet_vide();
 	t_maillon * maillon;
 	t_point3d *pts[8];
 	t_point3d *sommet;
 	t_triangle3d *triangles_tronc[8];
 	t_triangle3d *triangles_sommet[4];
 
+	// Définition des points
 	pts[0] = definirPoint3d(-lx/2, -ly/2, -lz/2);
 	pts[1] = definirPoint3d( lx/2, -ly/2, -lz/2);
 	pts[2] = definirPoint3d( lx/2, -ly/2,  lz/2);
@@ -265,6 +266,7 @@ t_objet3d* arbre_etu(double lx, double ly, double lz)
 	pts[7] = definirPoint3d(-lx/2,  ly/2,  lz/2);
 	sommet = definirPoint3d(0, 0.7*ly, 0);
 
+	// Definition des triangles
 	for(i = 0; i < 3; i++)
 	{
 		triangles_tronc[2*i] = definirTriangle3d(pts[i], pts[i+4], pts[i+5]);
@@ -275,11 +277,7 @@ t_objet3d* arbre_etu(double lx, double ly, double lz)
 	triangles_tronc[7] = definirTriangle3d(pts[3], pts[0], pts[4]);
 	triangles_sommet[3] = definirTriangle3d(pts[7], pts[0], sommet);
 
-	arbre = (t_objet3d*) malloc(sizeof(t_objet3d));
-	arbre->est_trie = false;
-	arbre->est_camera = false;
-	arbre->tete = NULL;
-
+	// Ajout des triangles du tronc à l'objet sous forme de maillons
 	for(i = 0; i < 8; i++)
 	{
 		maillon = (t_maillon *) malloc(sizeof(t_maillon));
@@ -302,6 +300,7 @@ t_objet3d* arbre_etu(double lx, double ly, double lz)
 		arbre->tete = maillon;
 	}
 
+	// Ajout des triangles du sommet à l'objet sous forme de maillons
 	for(i = 0; i < 4; i++)
 	{
 		maillon = (t_maillon *) malloc(sizeof(t_maillon));
@@ -317,11 +316,12 @@ t_objet3d* arbre_etu(double lx, double ly, double lz)
 t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
 {
 	int i, j, k;
-	t_objet3d* damier;
+	t_objet3d* damier = objet_vide();
 	t_maillon* maillon;
 	t_point3d* pts[(int)nx+1][(int)nz+1];
 	t_triangle3d* triangles[(int)nx][(int)nz][2];
 	
+	// Définition des points
 	for(i = 0; i < nx+1; i++)
 	{
 		for(j = 0; j < nz+1; j++)
@@ -330,6 +330,7 @@ t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
 		}
 	}
 	
+	// Définition des triangles
 	for(i = 0; i < nx; i++)
 	{
 		for(j = 0; j < nz; j++)
@@ -339,11 +340,7 @@ t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
 		}
 	}
 
-	damier = (t_objet3d*) malloc(sizeof(t_objet3d));
-	damier->est_trie = false;
-	damier->est_camera = false;
-	damier->tete = NULL;
-
+	// Ajout des triangles à l'objet sous la forme de maillon
 	for(i = 0; i < nx; i++)
 	{
 		for(j = 0; j < nz; j++)
