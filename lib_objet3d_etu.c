@@ -314,4 +314,55 @@ t_objet3d* arbre_etu(double lx, double ly, double lz)
 	return arbre;
 }
 
+t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
+{
+	int i, j, k;
+	t_objet3d* damier;
+	t_maillon* maillon;
+	t_point3d* pts[(int)nx+1][(int)nz+1];
+	t_triangle3d* triangles[(int)nx][(int)nz][2];
+	
+	for(i = 0; i < nx+1; i++)
+	{
+		for(j = 0; j < nz+1; j++)
+		{
+			pts[i][j] = definirPoint3d(-lx/2 + i*lx/nx, 0, -lz/2 + j*lz/nz);
+		}
+	}
+	
+	for(i = 0; i < nx; i++)
+	{
+		for(j = 0; j < nz; j++)
+		{
+			triangles[i][j][0] = definirTriangle3d(pts[i][j], pts[i+1][j], pts[i+1][j+1]);
+			triangles[i][j][1] = definirTriangle3d(pts[i][j], pts[i][j+1], pts[i+1][j+1]);
+		}
+	}
 
+	damier = (t_objet3d*) malloc(sizeof(t_objet3d));
+	damier->est_trie = false;
+	damier->est_camera = false;
+	damier->tete = NULL;
+
+	for(i = 0; i < nx; i++)
+	{
+		for(j = 0; j < nz; j++)
+		{
+			for(k = 0; k < 2; k++)
+			{
+				maillon = (t_maillon *) malloc(sizeof(t_maillon));
+				maillon->face = triangles[i][j][k];
+
+				if((i+j)%2 == 0)
+					maillon->couleur = NOIR;
+				else
+					maillon->couleur = BLANC;
+
+				maillon->pt_suiv = damier->tete;
+				damier->tete = maillon;
+			}
+		}
+	}
+
+	return damier;
+}
