@@ -96,7 +96,7 @@ t_objet3d * parallelepipede_etu(double lx, double ly, double lz)
 	arbd = definirPoint3d(lx/2 , -ly/2, lz/2 );
 	arhg = definirPoint3d(-lx/2, ly/2 , lz/2 );
 	arhd = definirPoint3d(lx/2 , ly/2 , lz/2 );
-	
+
 	// Définition des triangles
 	av1 = definirTriangle3d(avbg, avbd, avhd);
 	av2 = definirTriangle3d(avbg, avhg, avhd);
@@ -361,7 +361,7 @@ t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
 	t_maillon* maillon;
 	t_point3d* pts[(int)nx+1][(int)nz+1];
 	t_triangle3d* triangles[(int)nx][(int)nz][2];
-	
+
 	// Définition des points
 	for(i = 0; i < nx+1; i++)
 	{
@@ -370,7 +370,7 @@ t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
 			pts[i][j] = definirPoint3d(-lx/2 + i*lx/nx, 0, -lz/2 + j*lz/nz);
 		}
 	}
-	
+
 	// Définition des triangles
 	for(i = 0; i < nx; i++)
 	{
@@ -416,6 +416,7 @@ t_objet3d *  copierObjet3d_etu(t_objet3d * o) //FIXME!
 	// Copie des attributs
 	copy->est_trie = o->est_trie;
 	copy->est_camera = o->est_camera;
+	copy->tete = NULL;
 	if(copy->est_camera) 
 	{
 		copy->largeur = o->largeur;
@@ -423,20 +424,18 @@ t_objet3d *  copierObjet3d_etu(t_objet3d * o) //FIXME!
 		copy->proche = o->proche;
 		copy->loin = o->loin;
 		copy->distance_ecran = o->distance_ecran;
-		copy->tete = NULL;
 	}
 	else 
 	{
-	 while(tete != NULL) 
-	 {
-		copy->tete = NULL;
-	 	nmaillon = (t_maillon *) malloc(sizeof(t_maillon));
-		nmaillon->face = tete->face;
-		nmaillon->couleur = tete->couleur;
-		nmaillon->pt_suiv = copy->tete;
-		copy->tete = nmaillon;
-		tete = tete->pt_suiv;
-	 }
+		while(tete != NULL) 
+		{
+			nmaillon = (t_maillon *) malloc(sizeof(t_maillon));
+			nmaillon->face = copierTriangle3d(tete->face);
+			nmaillon->couleur = tete->couleur;
+			nmaillon->pt_suiv = copy->tete;
+			copy->tete = nmaillon;
+			tete = tete->pt_suiv;
+		}
 	}
 	return copy;
 }
