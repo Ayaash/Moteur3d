@@ -404,3 +404,39 @@ t_objet3d* damier_etu(double lx, double lz, double nx, double nz)
 
 	return damier;
 }
+
+t_objet3d *  copierObjet3d_etu(t_objet3d * o) //FIXME!
+{
+	// Initialisation du nouvel objet
+	t_objet3d * copy;
+	copy = (t_objet3d *) malloc(sizeof(t_objet3d));
+	t_maillon * tete = o->tete;
+	t_maillon * nmaillon;
+
+	// Copie des attributs
+	copy->est_trie = o->est_trie;
+	copy->est_camera = o->est_camera;
+	if(copy->est_camera) 
+	{
+		copy->largeur = o->largeur;
+		copy->hauteur = o->hauteur;
+		copy->proche = o->proche;
+		copy->loin = o->loin;
+		copy->distance_ecran = o->distance_ecran;
+		copy->tete = NULL;
+	}
+	else 
+	{
+	 while(tete != NULL) 
+	 {
+		copy->tete = NULL;
+	 	nmaillon = (t_maillon *) malloc(sizeof(t_maillon));
+		nmaillon->face = tete->face;
+		nmaillon->couleur = tete->couleur;
+		nmaillon->pt_suiv = copy->tete;
+		copy->tete = nmaillon;
+		tete = tete->pt_suiv;
+	 }
+	}
+	return copy;
+}
