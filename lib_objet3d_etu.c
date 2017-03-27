@@ -1,5 +1,53 @@
 #include "lib_objet3d.h"
 
+Uint32 randomColor()
+{
+	int x = rand() % 20;
+	switch(x)
+	{
+		case 0:
+			return BLANC;
+		case 1:
+			return GRISC;
+		case 2:
+			return GRISF;
+		case 3:
+			return NOIR;
+		case 4:
+			return ROUGEC;
+		case 5:
+			return ROUGEF;
+		case 6:
+			return VERTC;
+		case 7:
+			return VERTF;
+		case 8:
+			return BLEUC;
+		case 9:
+			return BLEUF;
+		case 10:
+			return JAUNEC;
+		case 11:
+			return JAUNEF;
+		case 12:
+			return PALEC;
+		case 13:
+			return PALEF;
+		case 14:
+			return ROSEC;
+		case 15:
+			return ROSEF;
+		case 16:
+			return MARRON1;
+		case 17:
+			return MARRON2;
+		case 18:
+			return MARRON3;
+		case 19:
+			return MARRON4;
+	}
+}
+
 t_objet3d *  objet_vide_etu()
 {
 	t_objet3d * ret = (t_objet3d *)malloc(sizeof(t_objet3d));
@@ -67,73 +115,73 @@ t_objet3d * parallelepipede_etu(double lx, double ly, double lz)
 	// Les couleurs sont arbitraires
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = av1;
-	maillon->couleur = VERTC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = av2;
-	maillon->couleur = ROUGEC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = ar1;
-	maillon->couleur = VERTC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = ar2;
-	maillon->couleur = ROUGEC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = g1;
-	maillon->couleur = ROUGEC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = g2;
-	maillon->couleur = VERTC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = d1;
-	maillon->couleur = ROUGEC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = d2;
-	maillon->couleur = VERTC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = h1;
-	maillon->couleur = ROUGEC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = h2;
-	maillon->couleur = VERTC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = b1;
-	maillon->couleur = ROUGEC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
 	maillon = (t_maillon*) malloc(sizeof(t_maillon));
 	maillon->face = b2;
-	maillon->couleur = VERTC;
+	maillon->couleur = randomColor();
 	maillon->pt_suiv = parallelepipede->tete;
 	parallelepipede->tete = maillon;
 
@@ -181,14 +229,7 @@ t_objet3d * sphere_etu(double r, double nlat, double nlong)
 			maillon->pt_suiv = sphere->tete;
 			sphere->tete = maillon;
 
-			if(i%2 == 0 && j%2 == 0)
-				maillon->couleur = JAUNEF;
-			else if(i%2 == 1 && j%2 == 0)
-				maillon->couleur = ROSEC;
-			else if(i%2 == 1 && j%2 == 1)
-				maillon->couleur = PALEC;
-			else
-				maillon->couleur = BLEUC;
+			maillon->couleur = randomColor();
 		}
 	}
 

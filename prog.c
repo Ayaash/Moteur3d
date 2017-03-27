@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <math.h>
+#include <stdlib.h>
 #include "lib_surface.h"
 #include "lib_2d.h"
 #include "lib_3d.h"
@@ -80,6 +81,7 @@ void handle_events()
 
 int main(int argc,char** argv)
 {
+	srand(time(NULL));
 	t_surface *surface=NULL;
 	int cpt = 0;
 	int timestart, oldtime;
