@@ -3,6 +3,8 @@
 
 #include "lib_surface.h"
 #include "lib_3d.h"
+#include <time.h>
+#include <stdlib.h>
 
 #define pi 3.1415192653569793238462643383279
 
