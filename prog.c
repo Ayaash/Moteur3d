@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <math.h>
+#include <time.c>
 #include <stdlib.h>
 #include "lib_surface.h"
 #include "lib_2d.h"
