@@ -90,22 +90,22 @@ void remplirTriangle3d_etu(t_surface * surface, t_triangle3d * triangle, Uint32 
 	matriceProjection[0][0] = 1/l;
 	matriceProjection[1][1] = 1/h;
 	matriceProjection[2][2] = 1/d;
-	matriceProjection[3][3] = 1;
+	matriceProjection[3][2] = 1;
 
 	// Calcul du premier point du triangle
 	initialiseVecteur(vecteurProjete);
 	produitMatriciel(matriceProjection, triangle->abc[0]->xyzt, vecteurProjete);
-	pa = definirPoint2d((int)vecteurProjete[0] + RX/2, (int)vecteurProjete[1] + RY/2);
+	pa = definirPoint2d((int)vecteurProjete[0]/vecteurProjete[2] + RX/2, -(int)vecteurProjete[1]/vecteurProjete[2] + RY/2);
 
 	// Calcul du second point du triangle
 	initialiseVecteur(vecteurProjete);
 	produitMatriciel(matriceProjection, triangle->abc[1]->xyzt, vecteurProjete);
-	pb = definirPoint2d((int)vecteurProjete[0] + RX/2, (int)vecteurProjete[1] + RY/2);
+	pb = definirPoint2d((int)vecteurProjete[0]/vecteurProjete[2] + RX/2, -(int)vecteurProjete[1]/vecteurProjete[2] + RY/2);
 
 	// Calcul du troisieme point du triangle
 	initialiseVecteur(vecteurProjete);
 	produitMatriciel(matriceProjection, triangle->abc[2]->xyzt, vecteurProjete);
-	pc = definirPoint2d((int)vecteurProjete[0] + RX/2, (int)vecteurProjete[1] + RY/2);
+	pc = definirPoint2d((int)vecteurProjete[0]/vecteurProjete[2] + RX/2, -(int)vecteurProjete[1]/vecteurProjete[2] + RY/2);
 
 	t2d = definirTriangle2d(pa, pb, pc);
 	remplirTriangle2d(surface, t2d, c);

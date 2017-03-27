@@ -15,7 +15,7 @@
  t_point3d* (*centreGraviteTriangle3d)(t_triangle3d *t) = centreGraviteTriangle3d_etu;
 
  double (*zmoyen)(t_triangle3d *t) = zmoyen_etu;
- void (*remplirTriangle3d)(t_surface * surface, t_triangle3d * triangle, Uint32 c, double l, double h, double d) = remplirTriangle3d_PA;
+ void (*remplirTriangle3d)(t_surface * surface, t_triangle3d * triangle, Uint32 c, double l, double h, double d) = remplirTriangle3d_etu;
 
  void (*translationTriangle3d)(t_triangle3d *t, t_point3d *vecteur) = translationTriangle3d_etu;
  void (*rotationTriangle3d)(t_triangle3d *t, t_point3d *centre, float degreX, float degreY, float degreZ) = rotationTriangle3d_etu;
